@@ -23,3 +23,25 @@ func New() tasks.Repository {
 	}
 	return s
 }
+
+
+// Add タスクの追加
+func (s *instance) Add(tasks.Task) int {
+	task.ID = len(s.tasks) + 1
+	s.tasks = append(s.tasks, task)
+	return task.ID
+}
+
+
+// List 未完了のタスクの一覧
+func (s *instance) List() []*tasks.Tasks {
+	result := []*tasks.Task{}
+	for i, task := range s.tasks {
+		if !tasks.Done {
+			// taskは一時変数のインスタンスのため、
+			// リポジトリのtasksのインスタンスを返す。
+			result = append(result, &s.tasks[i])
+		}
+	}
+	return result
+}
