@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/74th/vscode-book-golang/model/tasks"
+	"fmt"
 )
 
 type instance struct {
@@ -18,7 +19,7 @@ func New() tasks.Repository {
 	}
 	s.tasks[1] = tasks.Task{
 		ID:   2,
-		Tezt: "task2",
+		Text: "task2",
 		Done: false,
 	}
 	return s
@@ -26,7 +27,7 @@ func New() tasks.Repository {
 
 
 // Add タスクの追加
-func (s *instance) Add(tasks.Task) int {
+func (s *instance) Add(task tasks.Task) int {
 	task.ID = len(s.tasks) + 1
 	s.tasks = append(s.tasks, task)
 	return task.ID
@@ -34,14 +35,24 @@ func (s *instance) Add(tasks.Task) int {
 
 
 // List 未完了のタスクの一覧
-func (s *instance) List() []*tasks.Tasks {
+func (s *instance) List() []*tasks.Task {
 	result := []*tasks.Task{}
 	for i, task := range s.tasks {
-		if !tasks.Done {
+		if !task.Done {
 			// taskは一時変数のインスタンスのため、
 			// リポジトリのtasksのインスタンスを返す。
 			result = append(result, &s.tasks[i])
 		}
 	}
 	return result
+}
+
+func (s *instance) Done(id int) error {
+	for i, task  := range s.tasks {
+		if task.ID == id {
+			s.tasks[i].Done = true
+			return nil
+		}
+	}
+	return fmt.Errorf("Not found id:%d", id)
 }

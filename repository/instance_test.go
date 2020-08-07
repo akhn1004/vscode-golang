@@ -1,9 +1,9 @@
 package repository
 
-import {
+import (
 	"github.com/74th/vscode-book-golang/model/tasks"
 	"testing"
-}
+)
 
 func TestAdd(t *testing.T) {
 	rep := New()
@@ -21,9 +21,9 @@ func TestAdd(t *testing.T) {
 		if addedTask.ID <= 2 {
 			t.Errorf("タスクに新しいIDがふられること %d", addedTask.ID)
 		}
-		for i, task := range req.(*instance).tasks {
+		for i, task := range rep.(*instance).tasks {
 			if i != 2 {
-				if addedTask.ID == tasks.ID {
+				if addedTask.ID == task.ID {
 					t.Errorf("既存のタスクとは異なるIDが振られていること %d == %d", addedTask.ID, task.ID)
 				}
 				if addedTask.Text == task.Text {
